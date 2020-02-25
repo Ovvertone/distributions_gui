@@ -1,9 +1,10 @@
 from scipy.stats import norm, gamma, logistic, weibull_min, expon, trimboth, gaussian_kde
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
+from PIL import ImageTk, Image
 from tkinter import *
 import numpy as np
-from PIL import ImageTk, Image
+
 
 
 def dist_norm(event):
