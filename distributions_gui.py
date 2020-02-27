@@ -1,11 +1,30 @@
-from scipy.stats import norm, gamma, logistic, weibull_min, expon, trimboth, gaussian_kde
+from scipy.stats import norm, gamma, logistic, weibull_min, expon, trimboth, gaussian_kde, \
+                        kurtosis, skew, tstd, describe, variation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from collections import Counter
 import matplotlib.pyplot as plt
-from PIL import ImageTk, Image
+from statistics import mode, _counts
 from tkinter import *
 import numpy as np
+from PIL import ImageTk, Image
 
 
+def get_mode(l):
+    vals = {}
+    mode = None
+
+    for num in l:
+        num = round(num, 1)
+        if num in vals:
+            vals[num] += 1
+        else:
+            vals[num] = 1
+
+    max_val = max(vals.values())
+    for k in vals.keys():
+        if vals.get(k) == max_val:
+            mode = k
+    return mode
 
 def dist_norm(event):
     fig, ax = plt.subplots(1, 1)
@@ -17,14 +36,23 @@ def dist_norm(event):
     mr = trimboth(r, .025)
     ax.hist(mr, density=True, histtype='bar', alpha=0.5, bins=20)
 
-    my_density = gaussian_kde(mr, bw_method=.45)
+    my_density = gaussian_kde(mr, bw_method=.5)
     ax.plot(x, my_density(x), 'g', lw=2)
+
+    kurt, sk, md, var, std, med, avg, min, max = kurtosis(mr), skew(mr), get_mode(mr), np.var(mr), np.std(mr), \
+                                                 np.median(mr), np.mean(mr), np.min(mr), np.max(mr)
+    stat = f'Kurtosis: {kurt}, Skewness: {sk}, Mode: {md}, Variance: {var}, Standart deviation: {std}, ' \
+           f'\nMedian: {med}, Mean: {avg}, Min: {min}, Max: {max}'
 
     canvas = FigureCanvasTkAgg(fig, master=graph)
     canvas.get_tk_widget().grid(row=0)
 
-    numbers = Label(graph, text=mr)
-    numbers.grid(row=0, column=1)
+    numbers = Label(graph, text=stat)
+    numbers.grid(row=1)
+
+    file = open('dist_numbers.txt', 'w')
+    file.write(str(mr))
+    file.close()
 
 
 def dist_gamma(event):
@@ -42,11 +70,20 @@ def dist_gamma(event):
     my_density = gaussian_kde(mr, bw_method=.5)
     ax.plot(x, my_density(x), 'g', lw=2)
 
+    kurt, sk, md, var, std, med, avg, min, max = kurtosis(mr), skew(mr), get_mode(mr), np.var(mr), np.std(mr), \
+                                                 np.median(mr), np.mean(mr), np.min(mr), np.max(mr)
+    stat = f'Kurtosis: {kurt}, Skewness: {sk}, Mode: {md}, Variance: {var}, Standart deviation: {std}, ' \
+           f'\nMedian: {med}, Mean: {avg}, Min: {min}, Max: {max}'
+
     canvas = FigureCanvasTkAgg(fig, master=graph)
     canvas.get_tk_widget().grid(row=0)
 
-    numbers = Label(graph, text=mr)
-    numbers.grid(row=0, column=1)
+    numbers = Label(graph, text=stat)
+    numbers.grid(row=1)
+
+    file = open('dist_numbers.txt', 'w')
+    file.write(str(mr))
+    file.close()
 
 
 def dist_log(event):
@@ -62,11 +99,20 @@ def dist_log(event):
     my_density = gaussian_kde(mr, bw_method=.45)
     ax.plot(x, my_density(x), 'g', lw=2)
 
+    kurt, sk, md, var, std, med, avg, min, max = kurtosis(mr), skew(mr), get_mode(mr), np.var(mr), np.std(mr), \
+                                                 np.median(mr), np.mean(mr), np.min(mr), np.max(mr)
+    stat = f'Kurtosis: {kurt}, Skewness: {sk}, Mode: {md}, Variance: {var}, Standart deviation: {std}, ' \
+           f'\nMedian: {med}, Mean: {avg}, Min: {min}, Max: {max}'
+
     canvas = FigureCanvasTkAgg(fig, master=graph)
     canvas.get_tk_widget().grid(row=0)
 
-    numbers = Label(graph, text=mr)
-    numbers.grid(row=0, column=1)
+    numbers = Label(graph, text=stat)
+    numbers.grid(row=1)
+
+    file = open('dist_numbers.txt', 'w')
+    file.write(str(mr))
+    file.close()
 
 
 def dist_exp(event):
@@ -83,11 +129,20 @@ def dist_exp(event):
     my_density = gaussian_kde(mr, bw_method=.35)
     ax.plot(x, my_density(x), 'g', lw=2)
 
+    kurt, sk, md, var, std, med, avg, min, max = kurtosis(mr), skew(mr), get_mode(mr), np.var(mr), np.std(mr), \
+                                                 np.median(mr), np.mean(mr), np.min(mr), np.max(mr)
+    stat = f'Kurtosis: {kurt}, Skewness: {sk}, Mode: {md}, Variance: {var}, Standart deviation: {std}, ' \
+           f'\nMedian: {med}, Mean: {avg}, Min: {min}, Max: {max}'
+
     canvas = FigureCanvasTkAgg(fig, master=graph)
     canvas.get_tk_widget().grid(row=0)
 
-    numbers = Label(graph, text=mr)
-    numbers.grid(row=0, column=1)
+    numbers = Label(graph, text=stat)
+    numbers.grid(row=1)
+
+    file = open('dist_numbers.txt', 'w')
+    file.write(str(mr))
+    file.close()
 
 
 def dist_weibull(event):
@@ -105,11 +160,20 @@ def dist_weibull(event):
     my_density = gaussian_kde(mr, bw_method=.5)
     ax.plot(x, my_density(x), 'g', lw=2)
 
+    kurt, sk, md, var, std, med, avg, min, max = kurtosis(mr), skew(mr), get_mode(mr), np.var(mr), np.std(mr), \
+                                                 np.median(mr), np.mean(mr), np.min(mr), np.max(mr)
+    stat = f'Kurtosis: {kurt}, Skewness: {sk}, Mode: {md}, Variance: {var}, Standart deviation: {std}, ' \
+           f'\nMedian: {med}, Mean: {avg}, Min: {min}, Max: {max}'
+
     canvas = FigureCanvasTkAgg(fig, master=graph)
     canvas.get_tk_widget().grid(row=0)
 
-    numbers = Label(graph, text=mr)
-    numbers.grid(row=0, column=1)
+    numbers = Label(graph, text=stat)
+    numbers.grid(row=1)
+
+    file = open('dist_numbers.txt', 'w')
+    file.write(str(mr))
+    file.close()
 
 
 window = Tk()
