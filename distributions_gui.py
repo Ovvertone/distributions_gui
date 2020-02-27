@@ -1,19 +1,17 @@
 from scipy.stats import norm, gamma, logistic, weibull_min, expon, trimboth, gaussian_kde, \
                         kurtosis, skew, tstd, describe, variation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from collections import Counter
 import matplotlib.pyplot as plt
-from statistics import mode, _counts
 from tkinter import *
 import numpy as np
 from PIL import ImageTk, Image
 
 
-def get_mode(l):
+def get_mode(series: list) -> float:
     vals = {}
     mode = None
 
-    for num in l:
+    for num in series:
         num = round(num, 1)
         if num in vals:
             vals[num] += 1
